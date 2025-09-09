@@ -1,0 +1,3 @@
+[workspace]
+members = [ "cr_lommy","cr_lommy_macro"]
+resolver = "3"
