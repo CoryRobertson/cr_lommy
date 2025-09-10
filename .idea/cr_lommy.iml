@@ -5,6 +5,7 @@
       <sourceFolder url="file://$MODULE_DIR$/cr_lommy/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/cr_lommy_macro/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/cr_lommy_macro/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/cr_lommy/tests" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />

@@ -5,3 +5,6 @@ edition = "2024"
 
 [dependencies]
 cr_lommy_macro = { path = "../cr_lommy_macro" }
+
+[dev-dependencies]
+proptest = "1.7"
