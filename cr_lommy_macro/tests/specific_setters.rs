@@ -1,6 +1,6 @@
 #[cfg(test)]
 mod tests {
-    use cr_lommy_macro::{SpecificSetters};
+    use cr_lommy_macro::SpecificSetters;
 
     #[test]
     fn specific_setters_test_derive() {

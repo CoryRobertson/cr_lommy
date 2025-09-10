@@ -1,7 +1,6 @@
-use crate::DeriveInput;
 use proc_macro::TokenStream;
 use quote::quote;
-use syn::{Data, parse_macro_input};
+use syn::{Data, DeriveInput, parse_macro_input};
 
 pub fn enum_value_list(input: TokenStream) -> TokenStream {
     let input = parse_macro_input!(input as DeriveInput);
