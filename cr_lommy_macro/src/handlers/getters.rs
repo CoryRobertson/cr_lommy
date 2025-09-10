@@ -49,5 +49,5 @@ pub(crate) fn getters(input: TokenStream) -> TokenStream {
         }
     };
 
-    functions.unwrap().into()
+    functions.unwrap_or_default().into()
 }
