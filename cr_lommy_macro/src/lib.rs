@@ -2,7 +2,7 @@ mod handlers;
 
 use proc_macro::TokenStream;
 
-#[proc_macro_derive(Getters, attributes(getters_lommy_skip))]
+#[proc_macro_derive(Getters, attributes(getters_lommy_skip, getter_fn))]
 /// adds getters to every field of the struct
 /// ```compile_fail,E0599
 ///
