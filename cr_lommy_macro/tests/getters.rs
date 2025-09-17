@@ -6,6 +6,7 @@ mod tests {
     fn getters_test_derive() {
         #[derive(Getters, Default)]
         struct TestStruct {
+            #[getters_lommy_mut]
             a: u32,
             b: u32,
         }
@@ -15,11 +16,18 @@ mod tests {
         assert_eq!(*s.a(), 0);
         assert_eq!(*s.b(), 0);
 
+
         s.a = 5;
         s.b = 7;
 
         assert_eq!(*s.a(), 5);
         assert_eq!(*s.b(), 7);
+
+        let a_mut = s.a_mut();
+        *a_mut = 31;
+
+        assert_eq!(*s.a(),31);
+
     }
 
     #[test]

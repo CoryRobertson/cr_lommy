@@ -1,5 +1,5 @@
 use proc_macro::TokenStream;
-use quote::quote;
+use quote::{format_ident, quote};
 use syn::DeriveInput;
 use syn::{Data, parse_macro_input};
 
@@ -19,19 +19,43 @@ pub(crate) fn getters(input: TokenStream) -> TokenStream {
                         .expect("Field for struct must have identifier");
                     let field_type = field.ty.clone();
 
-                    if field
+                    let skipped = field
                         .attrs
                         .iter()
                         .find(|attr| attr.path().is_ident("getters_lommy_skip"))
-                        .is_none()
+                        .is_some();
+
+                    let get_mut_attr = field
+                        .attrs
+                        .iter()
+                        .find(|attr| attr.path().is_ident("getters_lommy_mut"))
+                        .is_some();
+
+                    if !skipped
                     {
-                        Some(quote! {
+
+                        let mut functions = quote! {
                             impl #struct_name {
                                 pub fn #field_ident(&self) -> &#field_type {
                                     &self.#field_ident
                                 }
                             }
-                        })
+                        };
+
+                        if get_mut_attr {
+
+                            let get_mut_ident = format_ident!("{}_mut", field_ident);
+
+                            functions.extend(quote! {
+                                impl #struct_name {
+                                    pub fn #get_mut_ident(&mut self) -> &mut #field_type {
+                                        &mut self.#field_ident
+                                    }
+                                }
+                            });
+                        }
+
+                        Some(functions)
                     } else {
                         None
                     }
