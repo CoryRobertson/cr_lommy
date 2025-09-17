@@ -1,3 +1,4 @@
+use crate::handlers::is_ident_present_in_attr;
 use proc_macro::TokenStream;
 use quote::quote;
 use syn::DeriveInput;
@@ -17,29 +18,23 @@ pub(crate) fn setters(input: TokenStream) -> TokenStream {
                         let swap_value_function_name = quote::format_ident!("swap_{}", field_ident);
                         let set_value_function_name = quote::format_ident!("set_{}", field_ident);
 
-                        if field
-                            .attrs
-                            .iter()
-                            .find(|attr| attr.path().is_ident("setters_lommy_skip"))
-                            .is_none()
-                        {
-                            Some(quote! {
-                        impl #struct_name {
-                            pub fn #swap_value_function_name(&mut self, new_value: &mut #field_type) {
-                                std::mem::swap(&mut self.#field_ident, new_value);
-                            }
+                        let skipped = is_ident_present_in_attr(field.attrs.as_slice(),"setters_lommy_skip");
 
-                            pub fn #set_value_function_name(&mut self, new_value: #field_type) {
-                                self.#field_ident = new_value;
-                            }
-                        }
-                    })
+                        if !skipped {
+                            Some(quote! {
+                                impl #struct_name {
+                                    pub fn #swap_value_function_name(&mut self, new_value: &mut #field_type) {
+                                        std::mem::swap(&mut self.#field_ident, new_value);
+                                    }
+        
+                                    pub fn #set_value_function_name(&mut self, new_value: #field_type) {
+                                        self.#field_ident = new_value;
+                                    }
+                                }
+                            })
                         } else {
                             None
                         }
-
-
-
 
                     })
                     .reduce(|mut acc, e| {

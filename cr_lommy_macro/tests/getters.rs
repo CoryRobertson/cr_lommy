@@ -16,7 +16,6 @@ mod tests {
         assert_eq!(*s.a(), 0);
         assert_eq!(*s.b(), 0);
 
-
         s.a = 5;
         s.b = 7;
 
@@ -26,8 +25,7 @@ mod tests {
         let a_mut = s.a_mut();
         *a_mut = 31;
 
-        assert_eq!(*s.a(),31);
-
+        assert_eq!(*s.a(), 31);
     }
 
     #[test]

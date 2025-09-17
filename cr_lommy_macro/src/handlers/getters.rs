@@ -1,3 +1,4 @@
+use crate::handlers::is_ident_present_in_attr;
 use proc_macro::TokenStream;
 use quote::{format_ident, quote};
 use syn::DeriveInput;
@@ -17,22 +18,15 @@ pub(crate) fn getters(input: TokenStream) -> TokenStream {
                         .ident
                         .clone()
                         .expect("Field for struct must have identifier");
+
                     let field_type = field.ty.clone();
 
-                    let skipped = field
-                        .attrs
-                        .iter()
-                        .find(|attr| attr.path().is_ident("getters_lommy_skip"))
-                        .is_some();
+                    let skipped =
+                        is_ident_present_in_attr(field.attrs.as_slice(), "getters_lommy_skip");
 
-                    let get_mut_attr = field
-                        .attrs
-                        .iter()
-                        .find(|attr| attr.path().is_ident("getters_lommy_mut"))
-                        .is_some();
-
-                    if !skipped
-                    {
+                    if !skipped {
+                        let get_mut_attr =
+                            is_ident_present_in_attr(field.attrs.as_slice(), "getters_lommy_mut");
 
                         let mut functions = quote! {
                             impl #struct_name {
@@ -43,7 +37,6 @@ pub(crate) fn getters(input: TokenStream) -> TokenStream {
                         };
 
                         if get_mut_attr {
-
                             let get_mut_ident = format_ident!("{}_mut", field_ident);
 
                             functions.extend(quote! {
