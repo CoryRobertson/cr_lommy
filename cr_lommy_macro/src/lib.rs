@@ -116,3 +116,10 @@ pub fn all_args_constructor(input: TokenStream) -> TokenStream {
 pub fn enum_value_list(input: TokenStream) -> TokenStream {
     handlers::enum_variant_list::enum_value_list(input)
 }
+
+
+#[proc_macro_derive(EnumString)]
+/// Adds a to_str and from_str function to a given enum, im not sure if I like these function names yet, also might make this derive implement From<> and Into<> for each
+pub fn enum_to_and_from_string(input: TokenStream) -> TokenStream {
+    handlers::enum_string_functions::enum_to_and_from_string(input)
+}
