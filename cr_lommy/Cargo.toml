@@ -2,6 +2,8 @@
 name = "cr_lommy"
 version = "0.1.0"
 edition = "2024"
+description = "Macros that are somewhat similar to Java Lombok!"
+license = "GPL-3.0-only"
 
 [dependencies]
-cr_lommy_macro = { path = "../cr_lommy_macro" }
+cr_lommy_macro = { path = "../cr_lommy_macro", version = "0.1.0" }

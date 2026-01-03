@@ -2,6 +2,9 @@
 name = "cr_lommy_macro"
 version = "0.1.0"
 edition = "2024"
+description = "Macros for cr_lommy"
+license = "GPL-3.0-only"
+
 
 [lib]
 proc-macro = true
