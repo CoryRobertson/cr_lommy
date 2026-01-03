@@ -41,7 +41,7 @@ pub fn getters_derive(input: TokenStream) -> TokenStream {
 /// let mut s = TestStruct::default();
 ///
 /// s.set_a(52);
-/// s.set_b(52); // this line failes to compile because `b` is skipped
+/// s.set_b(52); // this line fails to compile because `b` is skipped
 /// let mut new_value = 62;
 /// s.swap_b(&mut new_value);
 ///
@@ -107,6 +107,22 @@ pub fn specific_setters(input: TokenStream) -> TokenStream {
 
 #[proc_macro_derive(AllArgsConstructor)]
 /// adds a `new` function that has an input of every field for the struct
+/// ```rust
+/// use cr_lommy_macro::AllArgsConstructor;
+///
+/// #[derive(AllArgsConstructor)]
+///  struct TestStruct {
+///     int_field: u32,
+///     float_field: f32,
+///     string_field: String,
+///  }
+///
+///  let new_test_struct = TestStruct::new_all_args(5, 1.2, "Cool test!!!".to_string());
+///
+///  assert_eq!(new_test_struct.int_field, 5);
+///  assert_eq!(new_test_struct.float_field, 1.2);
+///  assert_eq!(new_test_struct.string_field, "Cool test!!!".to_string());
+/// ```
 pub fn all_args_constructor(input: TokenStream) -> TokenStream {
     handlers::all_args_constructor::all_args_constructor(input)
 }
@@ -117,7 +133,6 @@ pub fn enum_value_list(input: TokenStream) -> TokenStream {
     handlers::enum_variant_list::enum_value_list(input)
 }
 
-
 #[proc_macro_derive(EnumString)]
 /// Adds a to_str and from_str function to a given enum, im not sure if I like these function names yet, also might make this derive implement From<> and Into<> for each
 pub fn enum_to_and_from_string(input: TokenStream) -> TokenStream {
@@ -125,6 +140,34 @@ pub fn enum_to_and_from_string(input: TokenStream) -> TokenStream {
 }
 
 #[proc_macro_attribute]
+/// Adds a block of code to the top of a function that looks like this
+/// ```compile_fail, rust
+/// {
+///      use std::sync::atomic::AtomicUsize;
+///      static CALL_COUNT: AtomicUsize = AtomicUsize::new(0);
+///      let call_count = CALL_COUNT.fetch_add(1, std::sync::atomic::Ordering::SeqCst) + 1;
+///      if #assert_non_debug {
+///            assert!(call_count <= #limit, "Call count exceeded, call_count: {}, limit: {}", call_count, #limit);
+///      } else {
+///            debug_assert!(call_count <= #limit, "Call count exceeded, call_count: {}, limit: {}", call_count, #limit);
+///      }
+///  }
+/// ```
+/// This code will debug_assert that a function is not called by more than a specified amount
+/// You can denote a function like this
+/// ```should_panic,rust
+/// use cr_lommy_macro::call_limit;
+///
+/// #[call_limit(limit = 3, assert_non_debug = true)]
+/// fn function_with_a_call_limit() {}
+///
+/// function_with_a_call_limit();
+/// function_with_a_call_limit();
+/// function_with_a_call_limit();
+/// function_with_a_call_limit(); // panic happens here!
+///
+/// ```
+/// If no limit is specified then a limit of 1 is assumed
 pub fn call_limit(attr: TokenStream, item: TokenStream) -> TokenStream {
     handlers::call_limit::call_limit(attr, item)
 }

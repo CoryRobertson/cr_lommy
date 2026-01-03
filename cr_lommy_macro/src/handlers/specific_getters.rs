@@ -1,8 +1,8 @@
+use crate::handlers::is_ident_present_in_attr;
 use proc_macro::TokenStream;
 use quote::quote;
 use syn::DeriveInput;
 use syn::{Data, parse_macro_input};
-use crate::handlers::is_ident_present_in_attr;
 
 pub(crate) fn specific_getters(input: TokenStream) -> TokenStream {
     let input = parse_macro_input!(input as DeriveInput);
@@ -15,8 +15,8 @@ pub(crate) fn specific_getters(input: TokenStream) -> TokenStream {
                 .fields
                 .into_iter()
                 .filter_map(|field| {
-
-                    let getter_attr_present = is_ident_present_in_attr(field.attrs.as_slice(),"getter");
+                    let getter_attr_present =
+                        is_ident_present_in_attr(field.attrs.as_slice(), "getter");
 
                     if getter_attr_present {
                         let field_ident =

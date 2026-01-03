@@ -26,7 +26,6 @@ pub(crate) fn setters(input: TokenStream) -> TokenStream {
                                     pub fn #swap_value_function_name(&mut self, new_value: &mut #field_type) {
                                         std::mem::swap(&mut self.#field_ident, new_value);
                                     }
-        
                                     pub fn #set_value_function_name(&mut self, new_value: #field_type) {
                                         self.#field_ident = new_value;
                                     }

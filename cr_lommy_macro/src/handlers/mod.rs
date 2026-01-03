@@ -1,13 +1,13 @@
 use syn::Ident;
 
 pub(crate) mod all_args_constructor;
+pub(crate) mod call_limit;
+pub(crate) mod enum_string_functions;
 pub(crate) mod enum_variant_list;
 pub(crate) mod getters;
 pub(crate) mod setters;
 pub(crate) mod specific_getters;
 pub(crate) mod specific_setters;
-pub(crate) mod enum_string_functions;
-pub(crate) mod call_limit;
 
 fn is_ident_present_in_attr<I>(attrs: &[syn::Attribute], ident: &I) -> bool
 where
