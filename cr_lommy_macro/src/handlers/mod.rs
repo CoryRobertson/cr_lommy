@@ -7,6 +7,7 @@ pub(crate) mod setters;
 pub(crate) mod specific_getters;
 pub(crate) mod specific_setters;
 pub(crate) mod enum_string_functions;
+pub(crate) mod call_limit;
 
 fn is_ident_present_in_attr<I>(attrs: &[syn::Attribute], ident: &I) -> bool
 where

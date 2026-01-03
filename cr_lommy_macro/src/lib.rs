@@ -123,3 +123,8 @@ pub fn enum_value_list(input: TokenStream) -> TokenStream {
 pub fn enum_to_and_from_string(input: TokenStream) -> TokenStream {
     handlers::enum_string_functions::enum_to_and_from_string(input)
 }
+
+#[proc_macro_attribute]
+pub fn call_limit(attr: TokenStream, item: TokenStream) -> TokenStream {
+    handlers::call_limit::call_limit(attr, item)
+}
