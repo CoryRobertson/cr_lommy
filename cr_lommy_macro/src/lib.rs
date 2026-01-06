@@ -2,6 +2,9 @@ mod handlers;
 
 use proc_macro::TokenStream;
 
+// TODO: allow vis modifier overriding
+// TODO: allow function name overriding
+
 #[proc_macro_derive(Getters, attributes(getters_lommy_skip, getters_lommy_mut))]
 /// adds getters to every field of the struct
 /// ```compile_fail,E0599
@@ -50,7 +53,7 @@ pub fn setters(input: TokenStream) -> TokenStream {
     handlers::setters::setters(input)
 }
 
-#[proc_macro_derive(SpecificGetters, attributes(getter))]
+#[proc_macro_derive(SpecificGetters, attributes(getter,getter_mut))]
 /// adds getters to specific fields that are marked with an attribute macro on those fields
 /// ```compile_fail, E0599
 /// use cr_lommy_macro::SpecificGetters;
@@ -105,7 +108,7 @@ pub fn specific_setters(input: TokenStream) -> TokenStream {
     handlers::specific_setters::specific_setters(input)
 }
 
-#[proc_macro_derive(AllArgsConstructor)]
+#[proc_macro_derive(AllArgsConstructor, attributes(all_args_constructor))]
 /// adds a `new` function that has an input of every field for the struct
 /// ```rust
 /// use cr_lommy_macro::AllArgsConstructor;
